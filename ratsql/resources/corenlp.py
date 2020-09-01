@@ -7,11 +7,11 @@ import requests
 
 class CoreNLP:
     def __init__(self):
-        if not os.environ.get('CORENLP_HOME'):
-            os.environ['CORENLP_HOME'] = os.path.abspath(
-                os.path.join(
-                    os.path.dirname(__file__),
-                    '../../third_party/stanford-corenlp-full-2018-10-05'))
+        #if not os.environ.get('CORENLP_HOME'):
+        os.environ['CORENLP_HOME'] = os.path.abspath(
+            os.path.join(
+                os.path.dirname(__file__),
+                '../../third_party/stanford-corenlp-full-2018-10-05'))
         if not os.path.exists(os.environ['CORENLP_HOME']):
             raise Exception(
                 f'''Please install Stanford CoreNLP and put it at {os.environ['CORENLP_HOME']}.
