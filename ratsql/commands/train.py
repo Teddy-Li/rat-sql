@@ -3,6 +3,7 @@ import collections
 import datetime
 import json
 import os
+import copy
 
 import _jsonnet
 import attr
@@ -106,8 +107,8 @@ class Trainer:
         # slight difference here vs. unrefactored train: The init_random starts over here.
         # Could be fixed if it was important by saving random state at end of init
         with self.init_random:
-            # We may be able to move optimizer and lr_scheduler to __init__ instead. Empirically it works fine. I think that's because saver.restore 
-            # resets the state by calling optimizer.load_state_dict. 
+            # We may be able to move optimizer and lr_scheduler to __init__ instead. Empirically it works fine. I think that's because saver.restore
+            # resets the state by calling optimizer.load_state_dict.
             # But, if there is no saved file yet, I think this is not true, so might need to reset the optimizer manually?
             # For now, just creating it from scratch each time is safer and appears to be the same speed, but also means you have to pass in the config to train which is kind of ugly.
 
@@ -162,6 +163,28 @@ class Trainer:
             collate_fn=lambda x: x)
 
         val_data = self.model_preproc.dataset('val')
+
+        print("train: ")
+        for _item in train_data.components[1]:
+            if _item.tree is None:
+                print("?")
+
+        dev_badidxs = []
+        print("val: ")
+        for _idx, _item in enumerate(val_data.components[1]):
+            if _item.tree is None:
+                dev_badidxs.append(_idx)
+                print("!")
+
+        assert len(val_data.components[0]) == len(val_data.components[1])
+        new_first = []
+        new_second = []
+        for _idx in range(len(val_data.components[1])):
+            if _idx not in dev_badidxs:
+                new_first.append(val_data.components[0][_idx])
+                new_second.append(val_data.components[1][_idx])
+        val_data.components = copy.deepcopy((new_first, new_second))
+
         val_data_loader = torch.utils.data.DataLoader(
             val_data,
             batch_size=self.train_config.eval_batch_size,
