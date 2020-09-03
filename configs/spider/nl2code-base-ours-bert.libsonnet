@@ -9,8 +9,8 @@
 #   - table_encoder ['emb', 'bilstm-summarize']
 #   - upd_steps 4
 # - Optimization
-#   - max_steps 60k
-#   - batch_size 6
+#   - max_steps 100k
+#   - batch_size 4
 #   - Adam with lr 1e-3
 
 function(output_from, data_path='data/spider/') {
@@ -105,15 +105,15 @@ function(output_from, data_path='data/spider/') {
     },
 
     train: {
-        batch_size: 6,
-        eval_batch_size: 30,
+        batch_size: 4,
+        eval_batch_size: 16,
 
         keep_every_n: 2000,
         eval_every_n: 200,
         save_every_n: 200,
         report_every_n: 10,
 
-        max_steps: 60000,
+        max_steps: 100000,
         num_eval_items: 50,
     },
     optimizer: {

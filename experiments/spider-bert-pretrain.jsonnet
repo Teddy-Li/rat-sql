@@ -11,7 +11,7 @@
         bert_version: "bert-large-uncased-whole-word-masking",
         summarize_header: "avg",
         use_column_type: false,
-        max_steps: 81000,
+        max_steps: 100000,
         num_layers: 8,
         lr: 7.44e-4,
         bert_lr: 3e-6,
@@ -31,6 +31,6 @@
     eval_output: "%s/ie_dirs" % self.logdir,
     eval_beam_size: 1,
     eval_use_heuristic: true,
-    eval_steps: [ 1000 * x + 100 for x in std.range(30, 39)] + [40000],
+    eval_steps: [ 2000 * x + 100 for x in std.range(30, 49)] + [100000],
     eval_section: "val",
 }
