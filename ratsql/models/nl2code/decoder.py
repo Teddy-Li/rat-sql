@@ -108,7 +108,12 @@ class NL2CodeDecoderPreproc(abstract_preproc.AbstractPreproc):
         self.rules_mask = None
 
     def validate_item(self, item, section):
-        parsed = self.grammar.parse(item.code, section)
+        try:
+            parsed = self.grammar.parse(item.code, section)
+        except Exception as e:
+            print(e)
+            print("Error occured!")
+            parsed = None
         if parsed:
             try:
                 self.ast_wrapper.verify_ast(parsed)

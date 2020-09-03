@@ -9,9 +9,9 @@
 #   - table_encoder ['emb', 'bilstm-summarize']
 #   - upd_steps 4
 # - Optimization
-#   - max_steps 60k
-#   - batch_size 6
-#   - Adam with lr 1e-3
+#   - max_steps 40k
+#   - batch_size 10
+#   - Adam with lr 1e-4
 
 function(output_from, data_path='data/spider/') {
     local PREFIX = data_path,
@@ -105,15 +105,15 @@ function(output_from, data_path='data/spider/') {
     },
 
     train: {
-        batch_size: 6,
-        eval_batch_size: 30,
+        batch_size: 10,
+        eval_batch_size: 50,
 
-        keep_every_n: 2000,
-        eval_every_n: 200,
-        save_every_n: 200,
+        keep_every_n: 1000,
+        eval_every_n: 100,
+        save_every_n: 100,
         report_every_n: 10,
 
-        max_steps: 60000,
+        max_steps: 40000,
         num_eval_items: 50,
     },
     optimizer: {
@@ -123,7 +123,7 @@ function(output_from, data_path='data/spider/') {
     lr_scheduler: {
         name: 'warmup_polynomial',
         num_warmup_steps: $.train.max_steps / 20,
-        start_lr: 1e-3,
+        start_lr: 1e-4,
         end_lr: 0,
         decay_steps: $.train.max_steps - self.num_warmup_steps,
         power: 0.5,

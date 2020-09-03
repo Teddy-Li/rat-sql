@@ -11,7 +11,7 @@
 # - Optimization
 #   - max_steps 40k
 #   - batch_size 10
-#   - Adam with lr 1e-3
+#   - Adam with lr 3e-5
 
 function(output_from, data_path='data/spider/') {
     local PREFIX = data_path,
@@ -28,6 +28,30 @@ function(output_from, data_path='data/spider/') {
         val: {
             name: 'spider', 
             paths: [PREFIX + 'dev.json'],
+            tables_paths: [PREFIX + 'tables.json'],
+            db_path: PREFIX + 'database',
+        },
+        finetune_ours: {
+            name: 'spider',
+            paths: [PREFIX + 'finetune_ours.json'],
+            tables_paths: [PREFIX + 'tables.json'],
+            db_path: PREFIX + 'database',
+        },
+        finetune_oracle: {
+            name: 'spider',
+            paths: [PREFIX + 'finetune_oracle.json'],
+            tables_paths: [PREFIX + 'tables.json'],
+            db_path: PREFIX + 'database',
+        },
+        finetune_irrelevant: {
+            name: 'spider',
+            paths: [PREFIX + 'finetune_irrelevant.json'],
+            tables_paths: [PREFIX + 'tables.json'],
+            db_path: PREFIX + 'database',
+        },
+        test: {
+            name: 'spider',
+            paths: [PREFIX + 'test.json'],
             tables_paths: [PREFIX + 'tables.json'],
             db_path: PREFIX + 'database',
         },
@@ -99,7 +123,7 @@ function(output_from, data_path='data/spider/') {
     lr_scheduler: {
         name: 'warmup_polynomial',
         num_warmup_steps: $.train.max_steps / 20,
-        start_lr: 1e-3,
+        start_lr: 3e-5,
         end_lr: 0,
         decay_steps: $.train.max_steps - self.num_warmup_steps,
         power: 0.5,

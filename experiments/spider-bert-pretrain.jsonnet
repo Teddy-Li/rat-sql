@@ -1,8 +1,11 @@
 {
     logdir: "logdir/bert_run_pretrain",
+    initdir: "logdir/bert_run_pretrain",
+    trainset: "train",
+    valset: "val",
     model_config: "configs/spider/nl2code-bert-ours.jsonnet",
     model_config_args: {
-        data_path: 'pretrain_data/spider/',
+        data_path: 'full_data/spider/',
         bs: 6,
         num_batch_accumulated: 4,
         bert_version: "bert-large-uncased-whole-word-masking",
@@ -25,7 +28,7 @@
     },
 
     eval_name: "bert_run_pretrain_%s_%d" % [self.eval_use_heuristic, self.eval_beam_size],
-    eval_output: "__LOGDIR__/ie_dirs",
+    eval_output: "%s/ie_dirs" % self.logdir,
     eval_beam_size: 1,
     eval_use_heuristic: true,
     eval_steps: [ 1000 * x + 100 for x in std.range(30, 39)] + [40000],

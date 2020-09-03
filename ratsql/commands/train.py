@@ -103,7 +103,7 @@ class Trainer:
                                             preproc=self.model_preproc, device=self.device)
             self.model.to(self.device)
 
-    def train(self, config, modeldir):
+    def train(self, config, modeldir, trainset, valset):
         # slight difference here vs. unrefactored train: The init_random starts over here.
         # Could be fixed if it was important by saving random state at end of init
         with self.init_random:
@@ -149,7 +149,7 @@ class Trainer:
 
         # 3. Get training data somewhere
         with self.data_random:
-            train_data = self.model_preproc.dataset('train')
+            train_data = self.model_preproc.dataset(trainset)
             train_data_loader = self._yield_batches_from_epochs(
                 torch.utils.data.DataLoader(
                     train_data,
@@ -162,7 +162,7 @@ class Trainer:
             batch_size=self.train_config.eval_batch_size,
             collate_fn=lambda x: x)
 
-        val_data = self.model_preproc.dataset('val')
+        val_data = self.model_preproc.dataset(valset)
 
         print("train: ")
         for _item in train_data.components[1]:
@@ -294,7 +294,7 @@ def main(args):
 
     # Construct trainer and do training
     trainer = Trainer(logger, config)
-    trainer.train(config, modeldir=args.logdir)
+    trainer.train(config, modeldir=args.logdir, trainset=args.trainset, valset=args.valset)
 
 
 if __name__ == '__main__':

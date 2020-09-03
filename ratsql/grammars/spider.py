@@ -150,7 +150,8 @@ class SpiderLanguage:
                 '_type': 'ColUnit',
                 'c': self.parse_col_unit(val),
             }
-        elif isinstance(val, float):
+        elif isinstance(val, float) or isinstance(val, int):
+            val = float(val)
             if not self.include_literals:
                 return {'_type': 'Terminal'}
             return {

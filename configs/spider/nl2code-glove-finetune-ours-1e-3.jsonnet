@@ -16,6 +16,11 @@ function(args, data_path=_data_path) _base(output_from=true, data_path=data_path
         att: att,
     }),
 
+    pretrain: {
+        pretrained_path: "logdir/glove_run_pretrain",
+        checkpoint_step: 200,
+    },
+
     model+: {
         encoder+: {
             batch_encs_update: false,

@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 
+import os
+os.environ['CUDA_VISIBLE_DEVICES'] = "1"
+
 import argparse
 import json
 
@@ -18,6 +21,8 @@ class TrainConfig:
     config = attr.ib()
     config_args = attr.ib()
     logdir = attr.ib()
+    trainset = attr.ib()
+    valset = attr.ib()
 
 
 @attr.s
@@ -68,12 +73,15 @@ def main():
 
     logdir = args.logdir or exp_config["logdir"]
 
+    trainset = exp_config["trainset"]
+    valset = exp_config["valset"]
+
     if args.mode == "preprocess":
         preprocess_config = PreprocessConfig(model_config_file, model_config_args)
         preprocess.main(preprocess_config)
     elif args.mode == "train":
         train_config = TrainConfig(model_config_file,
-                                   model_config_args, logdir)
+                                   model_config_args, logdir, trainset, valset)
         train.main(train_config)
     elif args.mode == "eval":
         for step in exp_config["eval_steps"]:
