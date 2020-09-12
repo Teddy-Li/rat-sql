@@ -11,7 +11,7 @@
 # - Optimization
 #   - max_steps 40k
 #   - batch_size 10
-#   - Adam with lr 1e-3
+#   - Adam with lr 1e-5
 
 function(output_from, data_path='data/spider/') {
     local PREFIX = data_path,
@@ -123,7 +123,7 @@ function(output_from, data_path='data/spider/') {
     lr_scheduler: {
         name: 'warmup_polynomial',
         num_warmup_steps: $.train.max_steps / 20,
-        start_lr: 1e-3,
+        start_lr: 1e-5,
         end_lr: 0,
         decay_steps: $.train.max_steps - self.num_warmup_steps,
         power: 0.5,

@@ -17,8 +17,8 @@ function(args, data_path=_data_path) _base(output_from=true, data_path=data_path
     }),
 
     pretrain: {
-        pretrained_path: "logdir/glove_run_pretrain",
-        checkpoint_step: 200,
+        pretrained_path: "logdir/glove_run_pretrain/bs=20,lr=7.4e-04,end_lr=0e0,att=0/",
+        checkpoint_step: 32100,
     },
 
     model+: {

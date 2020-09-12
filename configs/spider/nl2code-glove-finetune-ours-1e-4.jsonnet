@@ -1,4 +1,4 @@
-local _base = import 'nl2code-base-ours-pretrain.libsonnet';
+local _base = import 'nl2code-base-ours-1e-4.libsonnet';
 local _data_path = 'full_data/spider/';
 
 function(args, data_path=_data_path) _base(output_from=true, data_path=data_path) + {
@@ -15,6 +15,11 @@ function(args, data_path=_data_path) _base(output_from=true, data_path=data_path
         end_lr: end_lr_s,
         att: att,
     }),
+
+    pretrain: {
+        pretrained_path: "logdir/glove_run_pretrain/bs=20,lr=7.4e-04,end_lr=0e0,att=0/",
+        checkpoint_step: 32100,
+    },
 
     model+: {
         encoder+: {

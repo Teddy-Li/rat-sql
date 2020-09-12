@@ -144,8 +144,9 @@ class Trainer:
             _path = pretrain_config["pretrained_path"]
             _step = pretrain_config["checkpoint_step"]
             pretrain_step = saver.restore(_path, step=_step, map_location=self.device, item_keys=["model"])
-            saver.save(modeldir, pretrain_step)  # for evaluating pretrained models
-            last_step = pretrain_step
+            print("pretrain restored! pretrain step: %d" % pretrain_step)
+            saver.save(modeldir, pretrain_step) # for evaluating pretrained models
+            #last_step = pretrain_step
 
         # 3. Get training data somewhere
         with self.data_random:
@@ -229,6 +230,7 @@ class Trainer:
                 # Run saver
                 if last_step == 1 or last_step % self.train_config.save_every_n == 0:
                     saver.save(modeldir, last_step)
+                    print("model saved at %d step" % last_step)
 
             # Save final model
             saver.save(modeldir, last_step)
@@ -291,7 +293,7 @@ def main(args):
         json.dump(config, f, sort_keys=True, indent=4)
 
     logger.log(f'Logging to {args.logdir}')
-
+    print(config)
     # Construct trainer and do training
     trainer = Trainer(logger, config)
     trainer.train(config, modeldir=args.logdir, trainset=args.trainset, valset=args.valset)
