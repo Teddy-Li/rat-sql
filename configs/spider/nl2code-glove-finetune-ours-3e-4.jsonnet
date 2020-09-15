@@ -88,7 +88,6 @@ function(args, data_path=_data_path) _base(output_from=true, data_path=data_path
     },
 
     lr_scheduler+: {
-        start_lr: lr,
         end_lr: end_lr,
     },
 
