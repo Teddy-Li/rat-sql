@@ -8,7 +8,7 @@ import json
 
 import _jsonnet
 import attr
-from ratsql.commands import preprocess, train, infer, eval
+from ratsql.commands import preprocess, train, infer, eval, train_noscheduler
 
 @attr.s
 class PreprocessConfig:
@@ -54,6 +54,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('mode', help="preprocess/train/eval", choices=["preprocess", "train", "eval"])
     parser.add_argument('exp_config_file', help="jsonnet file for experiments")
+    parser.add_argument('--use_scheduler', help='whether to use lr_scheduler for training.')
     parser.add_argument('--model_config_args', help="optional overrides for model config args")
     parser.add_argument('--logdir', help="optional override for logdir")
     args = parser.parse_args()
@@ -82,7 +83,12 @@ def main():
     elif args.mode == "train":
         train_config = TrainConfig(model_config_file,
                                    model_config_args, logdir, trainset, valset)
-        train.main(train_config)
+        if args.use_scheduler == 'True':
+            train.main(train_config)
+        elif args.use_scheduler == 'False':
+            train_noscheduler.main(train_config)
+        else:
+            raise AssertionError
     elif args.mode == "eval":
         for step in exp_config["eval_steps"]:
             infer_output_path = f"{exp_config['eval_output']}/{exp_config['eval_name']}-step{step}.infer"

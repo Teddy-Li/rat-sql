@@ -118,7 +118,7 @@ function(output_from, data_path='data/spider/') {
     },
     optimizer: {
         name: 'adam',
-        lr: 0.0,
+        lr: 1e-5,
     },
     lr_scheduler: {
         name: 'warmup_polynomial',
