@@ -15,5 +15,5 @@
     eval_beam_size: 1,
     eval_use_heuristic: true,
     eval_steps: [1] + [ 50 * x for x in std.range(1, 119)] + [6000],
-    eval_section: "val",
+    eval_section: "test",
 }

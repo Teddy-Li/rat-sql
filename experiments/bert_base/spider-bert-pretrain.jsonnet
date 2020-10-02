@@ -1,14 +1,14 @@
 {
-    logdir: "logdir/bert_run_pretrain",
-    initdir: "logdir/bert_run_pretrain",
+    logdir: "logdir/bert_base_run_pretrain",
+    initdir: "logdir/bert_base_run_pretrain",
     trainset: "train",
     valset: "val",
-    model_config: "configs/spider/nl2code-bert-ours.jsonnet",
+    model_config: "configs/spider/bert_base/nl2code-bert-pretrain.jsonnet",
     model_config_args: {
         data_path: 'full_data/spider/',
         bs: 6,
         num_batch_accumulated: 4,
-        bert_version: "bert-large-uncased-whole-word-masking",
+        bert_version: "bert-base-uncased",
         summarize_header: "avg",
         use_column_type: false,
         max_steps: 100000,
@@ -27,10 +27,10 @@
         clause_order: null, # strings like "SWGOIF", it will be prioriotized over end_with_from 
     },
 
-    eval_name: "bert_run_pretrain_%s_%d" % [self.eval_use_heuristic, self.eval_beam_size],
+    eval_name: "bert_base_run_pretrain_%s_%d" % [self.eval_use_heuristic, self.eval_beam_size],
     eval_output: "%s/ie_dirs" % self.logdir,
     eval_beam_size: 1,
     eval_use_heuristic: true,
-    eval_steps: [ 2000 * x + 100 for x in std.range(30, 49)] + [100000],
+    eval_steps: [ 1000 * x + 100 for x in std.range(10, 99)] + [100000],
     eval_section: "val",
 }

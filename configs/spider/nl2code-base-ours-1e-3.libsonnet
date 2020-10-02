@@ -37,6 +37,12 @@ function(output_from, data_path='data/spider/') {
             tables_paths: [PREFIX + 'tables.json'],
             db_path: PREFIX + 'database',
         },
+        finetune_gold: {
+            name: 'spider',
+            paths: [PREFIX + 'test.json'],
+            tables_paths: [PREFIX + 'tables.json'],
+            db_path: PREFIX + 'database',
+        },
         finetune_oracle: {
             name: 'spider',
             paths: [PREFIX + 'finetune_oracle.json'],

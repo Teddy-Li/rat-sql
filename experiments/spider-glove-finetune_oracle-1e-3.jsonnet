@@ -1,8 +1,8 @@
 {
-    logdir: "logdir/glove_run_finetune_ours_1e-4_noscheduler",
-    trainset: "finetune_ours",
+    logdir: "logdir/glove_run_finetune_oracle_1e-3",
+    trainset: "finetune_oracle",
     valset: "test",
-    model_config: "configs/spider/nl2code-glove-finetune-ours-1e-4.jsonnet",
+    model_config: "configs/spider/nl2code-glove-finetune-ours-1e-3.jsonnet",
     model_config_args: {
         att: 0,
         cv_link: true,
@@ -10,7 +10,7 @@
         enumerate_order: false,
     },
 
-    eval_name: "glove_run_finetune_ours_1e-4_%s_%d" % [self.eval_use_heuristic, self.eval_beam_size],
+    eval_name: "glove_run_finetune_oracle_1e-3_%s_%d" % [self.eval_use_heuristic, self.eval_beam_size],
     eval_output: "%s/ie_dirs" % self.logdir,
     eval_beam_size: 1,
     eval_use_heuristic: true,

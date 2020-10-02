@@ -83,12 +83,12 @@ def main():
     elif args.mode == "train":
         train_config = TrainConfig(model_config_file,
                                    model_config_args, logdir, trainset, valset)
-        if args.use_scheduler == 'True':
+        if args.use_scheduler is None or args.use_scheduler == 'True':
             train.main(train_config)
         elif args.use_scheduler == 'False':
             train_noscheduler.main(train_config)
         else:
-            raise AssertionError
+            print("use_scheduler not specified!")
     elif args.mode == "eval":
         for step in exp_config["eval_steps"]:
             infer_output_path = f"{exp_config['eval_output']}/{exp_config['eval_name']}-step{step}.infer"

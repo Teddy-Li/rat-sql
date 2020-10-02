@@ -9,9 +9,9 @@
 #   - table_encoder ['emb', 'bilstm-summarize']
 #   - upd_steps 4
 # - Optimization
-#   - max_steps 40k
-#   - batch_size 10
-#   - Adam with lr 1e-5
+#   - max_steps 100k
+#   - batch_size 4
+#   - Adam with lr 1e-3
 
 function(output_from, data_path='data/spider/') {
     local PREFIX = data_path,
@@ -40,12 +40,6 @@ function(output_from, data_path='data/spider/') {
         finetune_oracle: {
             name: 'spider',
             paths: [PREFIX + 'finetune_oracle.json'],
-            tables_paths: [PREFIX + 'tables.json'],
-            db_path: PREFIX + 'database',
-        },
-        finetune_gold: {
-            name: 'spider',
-            paths: [PREFIX + 'dev.json'],
             tables_paths: [PREFIX + 'tables.json'],
             db_path: PREFIX + 'database',
         },
@@ -111,25 +105,25 @@ function(output_from, data_path='data/spider/') {
     },
 
     train: {
-        batch_size: 10,
-        eval_batch_size: 50,
+        batch_size: 4,
+        eval_batch_size: 16,
 
-        keep_every_n: 50,
-        eval_every_n: 100,
-        save_every_n: 50,
+        keep_every_n: 1000,
+        eval_every_n: 200,
+        save_every_n: 200,
         report_every_n: 10,
 
-        max_steps: 6000,
+        max_steps: 100000,
         num_eval_items: 50,
     },
     optimizer: {
         name: 'adam',
-        lr: 1e-5,
+        lr: 0.0,
     },
     lr_scheduler: {
         name: 'warmup_polynomial',
         num_warmup_steps: $.train.max_steps / 20,
-        start_lr: 1e-5,
+        start_lr: 1e-3,
         end_lr: 0,
         decay_steps: $.train.max_steps - self.num_warmup_steps,
         power: 0.5,
